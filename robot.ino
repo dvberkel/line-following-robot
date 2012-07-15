@@ -2,10 +2,11 @@ const int left_direction_pin = 7;
 const int left_speed_pin = 6;
 const int right_direction_pin = 4;
 const int right_speed_pin = 5;
-const int forward = LOW;
-const int backward = HIGH;
+const int direction_forward = LOW;
+const int direction_backward = HIGH;
 
-int indicator_state = LOW;
+int a_speed = 255;
+int a_delay = 1000;
 
 void setup() {
   pinMode(left_direction_pin, OUTPUT);
@@ -13,12 +14,34 @@ void setup() {
 }
 
 void loop() {
-  int value;
-  for (value = 0; value < 255; value += 10) {
-    operate_left_motor(forward, value);
-    operate_right_motor(forward, value);
-    delay(100);
-  }
+  forward(a_speed);
+  delay(a_delay);
+  backward(a_speed);
+  delay(a_delay);
+  left(a_speed);
+  delay(a_delay);
+  right(a_speed);
+  delay(a_delay);
+}
+
+void forward(int a_speed) {
+  operate_left_motor(direction_forward, a_speed);
+  operate_right_motor(direction_forward, a_speed);
+}
+
+void backward(int a_speed) {
+  operate_left_motor(direction_backward, a_speed);
+  operate_right_motor(direction_backward, a_speed);
+}
+
+void left(int a_speed) {
+  operate_left_motor(direction_backward, a_speed);
+  operate_right_motor(direction_forward, a_speed);
+}
+
+void right(int a_speed) {
+  operate_left_motor(direction_forward, a_speed);
+  operate_right_motor(direction_backward, a_speed);
 }
 
 void operate_left_motor(int a_direction, int a_speed) {
