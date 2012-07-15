@@ -1,18 +1,18 @@
-const int indicator_pin = 13;
+const int left_motor_pin = 4;
+const int left_speed_pin = 5;
 
 int indicator_state = LOW;
 
 void setup() {
-  pinMode(indicator_pin, OUTPUT);
+  pinMode(left_motor_pin, OUTPUT);
 }
 
 void loop() {
-  if (indicator_state == LOW) {
-    indicator_state = HIGH;
-  } else {
-    indicator_state = LOW;
+  int value;
+  for (value = 0; value < 255; value += 10) {
+    digitalWrite(left_motor_pin, LOW);
+    analogWrite(left_speed_pin, value);
+    delay(100);
   }
-  digitalWrite(indicator_pin, indicator_state);
-  delay(500);
 }
 
