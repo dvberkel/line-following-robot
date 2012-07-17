@@ -22,8 +22,6 @@ void setup() {
   pinMode(left_direction_pin, OUTPUT);
   pinMode(right_direction_pin, OUTPUT);
   
-  Serial.begin(9600);
-  
   attachInterrupt(sensor_pin, on_track_changed, CHANGE);
 }
 
@@ -35,10 +33,12 @@ void loop() {
   }
   if (started) {
     if (on_track) {
-      Serial.println("on");
+      forward(a_speed);
     } else {
-      Serial.println("off");
+      forward(0);
     }
+  } else {
+    forward(0);
   }
 }
 
