@@ -5,7 +5,9 @@ const int right_speed_pin = 5;
 const int direction_forward = LOW;
 const int direction_backward = HIGH;
 
-const int sensor_pin = 8;
+const int sensor_pin = 0; // Should be an interrupt pin. Either 0 or 1
+
+volatile boolean on_track = false;
 
 int a_speed = 255;
 int a_delay = 1000;
@@ -16,10 +18,19 @@ void setup() {
   pinMode(right_direction_pin, OUTPUT);
   
   Serial.begin(9600);
+  attachInterrupt(sensor_pin, on_track_changed, CHANGE);
 }
 
 void loop() {
-  Serial.println(digitalRead(sensor_pin));
+  if (on_track) {
+    Serial.println("on");
+  } else {
+    Serial.println("off");
+  }
+}
+
+void on_track_changed() {
+  on_track = ! on_track;
 }
 
 void forward(int a_speed) {
