@@ -29,21 +29,28 @@ void loop() {
   if (digitalRead(start_pin) == HIGH) {
     started = ! started;
     on_track = true;
+    if (!started) {
+      full_stop();
+    }
     delay(a_second);
   }
   if (started) {
     if (on_track) {
       forward(a_speed);
     } else {
-      forward(0);
+      full_stop();
     }
   } else {
-    forward(0);
+    full_stop();
   }
 }
 
 void on_track_changed() {
   on_track = ! on_track;
+}
+
+void full_stop() {
+  forward(0);
 }
 
 void forward(int a_speed) {
