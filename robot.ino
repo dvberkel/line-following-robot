@@ -8,6 +8,8 @@ const int direction_backward = HIGH;
 const int sensor_pin = 0; // Should be an interrupt pin. Either 0 -> D2 or 1 -> D3
 const int start_pin = 8;
 
+const int a_second = 1000;
+
 volatile boolean on_track = false;
 boolean started = false;
 
@@ -29,7 +31,7 @@ void loop() {
   if (digitalRead(start_pin) == HIGH) {
     started = ! started;
     on_track = true;
-    delay(1000);
+    delay(a_second);
   }
   if (started) {
     if (on_track) {
