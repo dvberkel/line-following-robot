@@ -5,23 +5,21 @@ const int right_speed_pin = 5;
 const int direction_forward = LOW;
 const int direction_backward = HIGH;
 
+const int sensor_pin = 8;
+
 int a_speed = 255;
 int a_delay = 1000;
 
 void setup() {
+  pinMode(sensor_pin, INPUT);
   pinMode(left_direction_pin, OUTPUT);
   pinMode(right_direction_pin, OUTPUT);
+  
+  Serial.begin(9600);
 }
 
 void loop() {
-  forward(a_speed);
-  delay(a_delay);
-  backward(a_speed);
-  delay(a_delay);
-  left(a_speed);
-  delay(a_delay);
-  right(a_speed);
-  delay(a_delay);
+  Serial.println(digitalRead(sensor_pin));
 }
 
 void forward(int a_speed) {
