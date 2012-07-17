@@ -5,12 +5,11 @@ const int right_speed_pin = 5;
 const int direction_forward = LOW;
 const int direction_backward = HIGH;
 
-const int sensor_pin = 0; // Should be an interrupt pin. Either 0 -> D2 or 1 -> D3
+const int sensor_pin = 2;
 const int start_pin = 8;
 
 const int a_second = 1000;
 
-volatile boolean on_track = false;
 boolean started = false;
 
 int a_speed = 255;
@@ -22,31 +21,31 @@ void setup() {
   pinMode(left_direction_pin, OUTPUT);
   pinMode(right_direction_pin, OUTPUT);
   
-  attachInterrupt(sensor_pin, on_track_changed, CHANGE);
+  Serial.begin(9600);
 }
 
 void loop() {
   if (digitalRead(start_pin) == HIGH) {
     started = ! started;
-    on_track = true;
     if (!started) {
       full_stop();
     }
     delay(a_second);
   }
+  Serial.println(on_track());
   if (started) {
-    if (on_track) {
+    if (on_track()) {
       forward(a_speed);
     } else {
-      full_stop();
+      left(a_speed);
     }
   } else {
     full_stop();
   }
 }
 
-void on_track_changed() {
-  on_track = ! on_track;
+boolean on_track() {
+  return digitalRead(sensor_pin) == HIGH;
 }
 
 void full_stop() {
